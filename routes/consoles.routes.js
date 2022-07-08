@@ -5,15 +5,16 @@ const { createConsole, getAllConsoles, updateConsole, deleteConsole, assignGameT
 
 //Middleware
 const { consoleExist } = require("../middlewares/consoleExist.middleware")
+const { protectSession } = require("../middlewares/auth.middleware")
 
 
 const consoleRouter = express.Router()
 
-consoleRouter.post("/", createConsole)
+consoleRouter.post("/",protectSession, createConsole)
 consoleRouter.get("/", getAllConsoles)
-consoleRouter.post("/assign-toconsole", assignGameToConsole)
-consoleRouter.patch("/:id", consoleExist, updateConsole)
-consoleRouter.delete("/:id", consoleExist, deleteConsole)
+consoleRouter.post("/assign-toconsole",protectSession, assignGameToConsole)
+consoleRouter.patch("/:id",protectSession, consoleExist, updateConsole)
+consoleRouter.delete("/:id",protectSession, consoleExist, deleteConsole)
 
 module.exports = { consoleRouter }
 

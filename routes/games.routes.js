@@ -5,13 +5,14 @@ const { createGame, getAllGames, updateGame, deleteGame, reviewGame } = require(
 
 //Middleware
 const { gameExist } = require("../middlewares/gameExist.middleware")
+const { protectSession } = require("../middlewares/auth.middleware")
 
 const gamesRouter = express.Router()
 
-gamesRouter.post("/", createGame)
+gamesRouter.post("/",protectSession, createGame)
 gamesRouter.get("/", getAllGames)
-gamesRouter.patch("/:id", gameExist, updateGame)
-gamesRouter.delete("/:id", gameExist, deleteGame)
-gamesRouter.post("/reviews/:gameId", gameExist, reviewGame)
+gamesRouter.patch("/:id", protectSession, gameExist, updateGame)
+gamesRouter.delete("/:id",protectSession, gameExist, deleteGame)
+gamesRouter.post("/reviews/:gameId",protectSession, gameExist, reviewGame)
 
 module.exports = { gamesRouter }
